@@ -54,6 +54,7 @@ Alternative key/value stores and embedded databases:
  * [LevelDB](https://github.com/google/leveldb) a fast key-value storage library written at Google that provides an ordered mapping from string keys to string values.
  * [tdb](https://www.samba.org/ftp/tdb/) From Samba group
  * [mdbm](https://github.com/yahoo/mdbm) a very fast memory-mapped key/value store, from Yahoo
+ * [boltdb](https://github.com/boltdb/bolt) a golang key/value store
  * Others: GDBM, NDBM, Berkeley DB, [Wikipedia DBM](https://en.wikipedia.org/wiki/Dbm)
  * [Discussion on Reddit](https://news.ycombinator.com/item?id=8733017)
 
