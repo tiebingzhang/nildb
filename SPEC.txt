@@ -1,0 +1,56 @@
+-----
+
+KISSDB file format (version 2)
+Author: Tiebing Zhang <tiebing@meetcircle.com>,Adam Ierymenko <adam.ierymenko@zerotier.com>
+
+http://creativecommons.org/publicdomain/zero/1.0/
+
+-----
+
+In keeping with the goal of minimalism the file format is very simple, the
+sort of thing that would be given as an example in an introductory course in
+data structures. It's a basic hash table that adds additional pages of hash
+table entries on collision.
+
+It consists of a 16 byte header followed by a hash tables and then data.
+All integer values are stored in the big-endian word order (network order).
+
+The header consists of the following fields:
+
+[0-3]   magic numbers: (ASCII) 'N', 'D', 'B', NILDB_VERSION (currently 1)
+[4-7]   32-bit hash table size in entries
+[8-11]  32-bit key size in bytes
+[12-15] 32-bit value size in bytes
+
+Hash tables is an arrays of [hash table size] 32-bit unsigned integers, as 
+data offset from the beginning of the data portion.
+
+Hash table size is 4 * [hash table size].
+
+Immediately following the header is the first key/value and other fields.
+
+Structure of each key/value entry 
+	[0] 1-byte flags. 0x01 means valid, 0x00 means deleted.
+	[1-5]  32-bit offset, from this entry to the next link-listed entry with the same hash
+	fixed-size key data
+	fixed-size value data
+
+The algorithm for adding new entries is as follows:
+
+(1) The key is hashed using a 64-bit variant of the DJB2 hash function, and
+    this is taken modulo hash table size to get a bucket number.
+(2) The Hash table is checked to locate the first entry. If the hash table offset
+    is 0xFFFFFFFF, which indicates no entry, an entry is appened to the end of
+	the file and the hash table index is updated with the correct offset. If the
+	hash table offset is valid, then the link list is traversed until the
+	end. During the traverse, if the same key is found, the value is updated
+	and over. Otherwise, if an deleted entry is found, that entry is used for
+	the new entry, and flags set to valid. If no deleted entry found, an entry
+	is appened to the file, and the last link list entry offset is updated.
+
+Lookup of a key/value pair follows a simiar method of traversing the link list.
+
+Deleting an entry simply updates the entry's active bit to "deleted", so that 
+the space can be reused later. The file will never shrink.
+
+
