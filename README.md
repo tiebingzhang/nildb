@@ -48,15 +48,17 @@ Alternative key/value stores and embedded databases:
 
  * [KISSDB]( https://github.com/adamierymenko/kissdb) The base of this project, uses multiple hash tables instead of just one
  * [LMDB](http://symas.com/mdb/) uses mmap() and is very fast (not quite as tiny/simple/portable)
- * [CDB](http://cr.yp.to/cdb.html) is also minimal and fast, probably the closest thing to this (but has a 4gb size limit)
+ * [CDB](http://cr.yp.to/cdb.html) is also minimal and fast, but has a 4gb size limit
  * [Kyoto Cabinet](http://fallabs.com/kyotocabinet/) is very fast, full-featured, and modern (license required for commercial use)
  * [tdbm](http://tdbm.dss.ca/) a simple, high-performance database with nested atomic transactions
  * [LevelDB](https://github.com/google/leveldb) a fast key-value storage library written at Google that provides an ordered mapping from string keys to string values.
  * [tdb](https://www.samba.org/ftp/tdb/) From Samba group
  * [mdbm](https://github.com/yahoo/mdbm) a very fast memory-mapped key/value store, from Yahoo
  * [boltdb](https://github.com/boltdb/bolt) a golang key/value store
+ * [Rocksdb](http://rocksdb.org/) A persistent key-value store for fast storage environments, from Facebook
  * Others: GDBM, NDBM, Berkeley DB, [Wikipedia DBM](https://en.wikipedia.org/wiki/Dbm)
  * [Discussion on Reddit](https://news.ycombinator.com/item?id=8733017)
+
 
 
 
