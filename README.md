@@ -3,10 +3,14 @@ nildb
 
 NIL Key/Value database
 
-KISSDB is about the simplest key/value store you'll ever see, anywhere.
+NILDB is about the simplest key/value store you'll ever see, anywhere.
 It's written in plain vanilla C using only the standard string and FILE
 I/O functions, and should port to just about anything with a disk or
 something that acts like one.
+
+NILDB is based on [KISSDB](https://github.com/adamierymenko/kissdb), with significant 
+update to reduce file size and improve efficiency, and also added the capability to 
+delete entries.
 
 It stores keys and values of fixed length in a stupid-simple file format
 based on fixed-size hash tables. If a hash collision occurrs, a link list

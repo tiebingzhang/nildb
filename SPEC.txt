@@ -1,6 +1,6 @@
 -----
 
-KISSDB file format (version 2)
+NILDB file format (version 1)
 Author: Tiebing Zhang <tiebing@meetcircle.com>,Adam Ierymenko <adam.ierymenko@zerotier.com>
 
 http://creativecommons.org/publicdomain/zero/1.0/
