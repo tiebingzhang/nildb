@@ -4,8 +4,6 @@
 
 #define _FILE_OFFSET_BITS 64
 
-#include "nildb.h"
-
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -13,14 +11,15 @@
 #define __USE_UNIX98
 #include <unistd.h>
 
+#include "nildb.h"
+
 #define SIZE_OFFSET sizeof(uint32_t)
-#define NILDB_HEADER_SIZE ((SIZE_OFFSET * 3) + 4)
+#define NILDB_HEADER_SIZE (4 + sizeof(uint32_t)*3)
 #define META_SIZE	(1+SIZE_OFFSET)
 #define NULL_OFFSET	0xFFFFFFFF
 
 /* djb2 hash function */
-static uint64_t nildb_hash(const void *b,unsigned long len)
-{
+static uint64_t nildb_hash(const void *b,unsigned long len) {
 	unsigned long i;
 	uint64_t hash = 5381;
 	for(i=0;i<len;++i)
@@ -152,7 +151,7 @@ int nildb_get(nildb *db,const void *key,void *vbuf) {
 	}
 }
 
-int delete_entry(nildb *db){
+static int delete_entry(nildb *db){
 	uint8_t buf[4];
 	buf[0]=0;
 	fwrite(buf,1,1,db->f);
@@ -162,7 +161,7 @@ int delete_entry(nildb *db){
 
 /* write an entry to the current file position.
  * if update_next_offset is 0, the offset field will not be written*/
-int write_entry(nildb *db,const void *key,const void *value, int update_next_offset,uint32_t next_offset_be){
+static int write_entry(nildb *db,const void *key,const void *value, int update_next_offset,uint32_t next_offset_be){
 	uint8_t buf[8];
 	buf[0]=0x01;
 	if (update_next_offset){
@@ -179,7 +178,7 @@ int write_entry(nildb *db,const void *key,const void *value, int update_next_off
 }
 
 /* append an entry and update the parent next offset field */
-int append_entry(nildb *db,const void *key,const void *value,uint64_t parent_offset){
+static int append_entry(nildb *db,const void *key,const void *value,uint64_t parent_offset){
 	int n;
 	off_t start_offset = NILDB_HEADER_SIZE + db->hash_table_size_bytes;
 	fseeko(db->f,0,SEEK_END);
